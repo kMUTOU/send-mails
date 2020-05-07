@@ -1,0 +1,85 @@
+<h1>サーバー設定</h1>
+<form [formGroup]="configForm">
+    <ng-template>内容を入力</ng-template>
+    <div>
+        <mat-form-field class="container">
+            <mat-label>Host</mat-label>
+            <input matInput placeholder="host:" 
+                formControlName="host"
+                [value]=""
+                required/>
+            <mat-error *ngIf="configForm.invalid">{{getErrorMessage('host')}}</mat-error>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field class="container">
+            <mat-label>Port</mat-label>
+            <input matInput type="number" placeholder="port:" 
+                formControlName="port"
+                [value]=587
+                required/>
+            <mat-error *ngIf="configForm.invalid">{{getErrorMessage('port')}}</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="container-auth" formGroupName="auth">
+        <div>
+            <mat-form-field class="container">
+                <mat-label>ユーザー名</mat-label>
+                <input matInput placeholder="user:" 
+                    formControlName="user"
+                    [value]=""
+                    required/>
+                <mat-error *ngIf="configForm.invalid">{{getErrorMessage('auth.user')}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="container">
+                <mat-label>パスワード</mat-label>
+                <input matInput type="password" 
+                    formControlName="pass"
+                    [value]=""
+                    required/>
+                <mat-error *ngIf="configForm.invalid">{{getErrorMessage('auth.pass')}}</mat-error>
+            </mat-form-field>
+        </div>  
+    </div>
+    <div>
+        <mat-form-field class="container">
+            <mat-label>認証方式</mat-label>
+            <mat-select type="text" formControlName="authMethod">
+                <mat-option value="PLAIN">Plain</mat-option>
+                <!--
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+                -->
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-label>Secure</mat-label>
+        <mat-radio-group aria-label="Secure" formControlName="secure">
+            <mat-radio-button [value]=false>使用しない</mat-radio-button>
+            <mat-radio-button [value]=true>使用する</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div>
+        <button mat-button (click)="reset()">リセット<mat-icon>restore</mat-icon></button>
+        <button mat-raised-button type="submit" color="accent" (click)="onUpdate()">
+            更新<mat-icon>done</mat-icon>
+        </button>
+    </div>
+    <div *ngIf="message">
+        <mat-list>
+            <mat-list-item>
+                <mat-icon>done</mat-icon>{{ message }}
+            </mat-list-item>
+        </mat-list>
+        </div>
+    <div *ngIf="errorMessage">
+    <mat-list>
+        <mat-list-item>
+            <mat-icon>error</mat-icon>{{ errorMessage }}
+        </mat-list-item>
+    </mat-list>
+    </div>
+</form>

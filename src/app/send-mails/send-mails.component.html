@@ -1,0 +1,164 @@
+
+    <mat-vertical-stepper [linear]="isLinear" #stepper="matVerticalStepper">
+            <!-- Step 1 -->
+        <mat-step [stepControl]="addressFormGroup">
+        <ng-template matStepLabel>送信先一覧です</ng-template>
+        <form [formGroup]="addressFormGroup">
+            <div class="container mat-elevation-z8">
+                <table mat-table #table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-slide-toggle (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [aria-label]="slideLabel()">
+                        </mat-slide-toggle>
+                    </th>
+                    <td mat-cell *matCellDef="let row; let num = index">
+                        <mat-slide-toggle (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)"
+                                    [aria-label]="slideLabel(row, num)">
+                        </mat-slide-toggle>
+                    </td>
+                    </ng-container>
+
+                    <!-- Position Column -->
+                    <!--
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+                    -->
+                    <!-- Company Column -->
+                    <ng-container matColumnDef="corporation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> 会社名 </th>
+                        <td mat-cell *matCellDef="let element"> {{element.corporation}} </td>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> お名前 </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+                    <!-- Address Column -->
+                    <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> アドレス </th>
+                        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator #paginator
+                                [pageSize]="5"
+                                [pageSizeOptions]="[5, 10, 20]"
+                                [showFirstLastButtons]="true">
+                </mat-paginator>
+            </div>
+            <button mat-raised-button matStepperNext color="primary">
+                次へ<mat-icon>navigate_next</mat-icon>
+            </button>
+        </form>
+        </mat-step>
+
+        <!-- Step 2 -->
+        <mat-step [formGroup]="mailFormGroup" [stepControl]="mailFormGroup">
+        <ng-template matStepLabel>内容を入力</ng-template>
+        <div>
+            <mat-form-field class="container">
+            <!--
+                [formControl]="mailFormGroup.controls['subject']"
+            -->
+            <input matInput placeholder="件名:"
+                formControlName="subject" 
+                required>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="container">
+            <!--
+                [formControl]="mailFormGroup.controls['mailBody']"
+            -->
+            <textarea matInput placeholder="本文:" 
+                cdkTextareaAutosize
+                formControlName="mailBody"
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMaxRows="20"
+                required>
+                {{mail.text}}
+            </textarea>
+            </mat-form-field>
+        </div>
+        <!-- 添付ファイル -->
+        <div>添付するファイル</div>
+        <div class="attache-file-zone mat-elevation-z8" [appDropFiles] (selectedFiles)="attacheFiles($event)">
+            添付するファイルを<strong>こちら</strong>にドラッグ&amp;ドロップします。<mat-icon>attach_file</mat-icon>
+        </div>
+        <mat-list>
+            <mat-list-item *ngFor="let file of files; let num = index;">
+            <span>ファイル: {{file.filename}}({{file.size}})</span>
+                <button mat-raised-button color="accent" (click)="removeFile(num)">削除<mat-icon>delete</mat-icon></button>
+            </mat-list-item>
+        </mat-list>
+        <div>
+            <button mat-button matStepperPrevious><mat-icon>navigate_before</mat-icon>戻る</button>
+            <button mat-raised-button matStepperNext color="primary">次へ<mat-icon>navigate_next</mat-icon></button>
+        </div>
+        </mat-step>
+
+        <!-- Step 3 -->
+        <mat-step [formGroup]="mailFormGroup" [stepControl]="mailFormGroup" [editable]="!isNonEditable">
+        <ng-template matStepLabel>送信を実行</ng-template>
+        <div>この内容で送信をしますか？</div>
+        <div>
+            <mat-form-field class="container">
+            <input matInput placeholder="件名:" 
+                disabled
+                [value]="mailFormGroup.value['subject']"
+                required>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field class="container">
+                <textarea matInput placeholder="本文:"
+                disabled
+                [value]="mailFormGroup.value['mailBody']"
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMaxRows="20"
+                required>
+                {{mailFormGroup.value['mailBody']}}
+            </textarea>
+            </mat-form-field>
+        </div>
+        <mat-list>
+            <mat-list-item *ngFor="let file of files; let num = index;">
+            <span>ファイル: {{file.filename}}({{file.size}})</span>
+            </mat-list-item>
+        </mat-list>
+
+        <div>
+            <button mat-button matStepperPrevious><mat-icon>navigate_before</mat-icon>戻る</button>
+            <button mat-raised-button type="submit" color="primary" [disabled]="hasPosted" (click)="onSend()">送信<mat-icon>send</mat-icon></button>
+            <!-- reset button 
+            <button mat-button (click)="stepper.reset()">リセット</button>
+            -->
+        </div>
+        <div>
+            <section *ngIf="hasPosted" class="status">
+            <mat-progress-bar
+                    class="example-margin"
+                    color="primary"
+                    mode="determinate"
+                    [value]="postProgress"
+            >
+            </mat-progress-bar>
+            </section>
+            <mat-list>
+            <mat-list-item *ngFor="let statusMessage of statusMessages" color="accent">
+                <mat-icon>error</mat-icon>{{ statusMessage.content }}
+            </mat-list-item>
+            </mat-list>
+        </div>
+        </mat-step>
+    </mat-vertical-stepper>

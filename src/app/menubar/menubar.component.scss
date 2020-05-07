@@ -1,0 +1,23 @@
+.navbar {
+    /*    position: fixed; */
+    display: flex;
+    flex-direction: column;
+    height: 75px;
+    min-width: 300px;
+    z-index: 10;
+}
+
+.icon {
+    padding: 0 14px;
+    color: inherit;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    vertical-align: middle;
+}

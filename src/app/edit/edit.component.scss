@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-width: 500px;
+    /*width: 95%;*/
+}
+
+textarea {
+    height: 15em;
+}
+
+.mat-tab {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    min-width: 500px;
+}
+
+table {
+    width: 95%;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+}
+
+.mat-table .mat-cell-digit {
+    width: 10%;
+}
+
+.mat-table .mat-cell-button {
+    text-align: center;
+    width: 8%;
+}

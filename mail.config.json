@@ -1,0 +1,23 @@
+{
+	"message": {
+		"from": "fuwafuwa@example.com",
+		"subject": "じゃーん",
+		"text": "じゃーん。ふわふわのぴよこ🐥なのさ❗️\nこれはテスト✉️なのさ❗️"
+	},
+	"addresses": [
+		{
+			"position": 1,
+			"corporation": "ぴよー軒",
+			"name": "ふわふわ",
+			"address": "fuwafuwa@example.com",
+			"send": true
+		},
+		{
+			"position": 2,
+			"corporation": "ぴよー軒",
+			"name": "もふもふ",
+			"address": "mofumofu@example.com",
+			"send": true
+		}
+	]
+}

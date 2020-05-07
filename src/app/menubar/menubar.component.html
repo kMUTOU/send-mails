@@ -1,0 +1,14 @@
+<mat-toolbar color="primary" class="navbar">
+    <mat-toolbar-row>
+      <span>{{ title }}</span><span class="spacer"></span>
+      <a [routerLink]="['/send']">
+        <mat-icon class="icon" aria-hidden="false" aria-label="send icon">mail</mat-icon>
+      </a>
+      <a [routerLink]="['/edit']">
+        <mat-icon class="icon" aria-hidden="false" aria-label="edit icon">edit</mat-icon>
+      </a>
+      <a [routerLink]="['/conf']">
+        <mat-icon class="icon" aria-hidden="false" aria-label="conf icon">settings</mat-icon>
+      </a>
+    </mat-toolbar-row>
+  </mat-toolbar>

@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-width: 500px;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+}
+
+textarea {
+    height: 15em;
+}
+
+.attache-file-zone {
+    height: 200px;
+    border-width: 2px;
+    margin-bottom: 20px;
+    color: #ccc;
+/*    border-style: dashed; */
+    border-color: #ccc;
+    border-radius: 8px;
+    line-height: 200px;
+    text-align: center;
+
+}
+
+.attache-file-zone.drop {
+    color: #222;
+    border-color: #222;
+    transform: translate3d(0, 0, 0);
+    transition: background .4s cubic-bezier(.25,.8,.25,1), 
+                box-shadow 280ms cubic-bezier(.4,0,.2,1);
+}
+
+.loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+}

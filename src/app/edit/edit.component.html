@@ -1,0 +1,120 @@
+
+<mat-tab-group>
+    <mat-tab label="メール文面テンプレート" class="mat-tab">
+        <h1>メールの送信内容</h1>
+        <form [formGroup]="messageFormGroup">
+            <ng-template>内容を入力</ng-template>
+            <div>
+                <mat-form-field class="container">
+                    <input matInput placeholder="from:" 
+                        formControlName="from"
+                        [value]="mail.from"
+                        required/>
+                    <mat-error *ngIf="messageFormGroup.invalid">{{getErrorMessage('from')}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="container">
+                    <input matInput placeholder="件名:" 
+                        [value]="mail.subject"
+                        formControlName="subject"
+                        required/>
+                        <mat-error *ngIf="messageFormGroup.invalid">{{getErrorMessage('subject')}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="container">
+                    <textarea matInput placeholder="本文:" 
+                        [value]="mail.text"
+                        [formControl]="messageFormGroup.controls['text']"
+                        cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize"
+                        cdkAutosizeMaxRows="20"
+                        required>
+                        {{mail.text}}
+                    </textarea>
+                    <mat-error *ngIf="messageFormGroup.invalid">{{getErrorMessage('text')}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button>リセット<mat-icon>delete</mat-icon></button>
+                <button mat-raised-button type="submit" color="accent" (click)="updateMessageTemplate()">
+                    更新<mat-icon>done</mat-icon>
+                </button>
+            </div>
+        </form>
+    </mat-tab>
+    <mat-tab label="送信先アドレス一覧">
+        <h1>送信するアドレス一覧</h1>
+
+        <div class="example-container mat-elevation-z8">
+            <table mat-table #table [dataSource]="dataSource" matSort>
+                <!-- Position Column -->
+                <!--
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-cell-digit"> No. </th>
+                    <td mat-cell *matCellDef="let element" class="mat-cell-digit"> {{element.position}} </td>
+                </ng-container>
+                -->
+                <!-- Company Column -->
+                <ng-container matColumnDef="corporation">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> 会社名 </th>
+                    <td mat-cell *matCellDef="let element"> {{element.corporation}} </td>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> お名前 </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+                <!-- Address Column -->
+                <ng-container matColumnDef="address">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> アドレス </th>
+                    <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                </ng-container>
+
+                <!-- 編集用ボタン -->
+                <ng-container matColumnDef="mod">
+                    <th mat-header-cell *matHeaderCellDef class="mat-cell-button">変更</th>
+                    <td mat-cell *matCellDef="let row; let num = index">
+                        <button mat-button 
+                        (click)="openDialog(row)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- 削除ボタン-->
+                <ng-container matColumnDef="del">
+                    <th mat-header-cell *matHeaderCellDef class="mat-cell-button">削除</th>
+                    <td mat-cell *matCellDef="let row; let num = index">
+                        <button mat-button 
+                        (click)="dropRow(row, num)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div>
+                <button mat-raised-button color="primary" (click)="openDialog()">
+                    追加<mat-icon>playlist_add</mat-icon>
+                </button>
+                <mat-paginator #paginator
+                                [pageSize]="5"
+                                [pageSizeOptions]="[5, 10, 20]"
+                                [showFirstLastButtons]="true">
+                </mat-paginator>
+            </div>
+        </div>
+        <div>
+            <button mat-raised-button color="accent" (click)="updateAddresses()">
+                更新<mat-icon>done</mat-icon>
+            </button>
+        </div>
+    </mat-tab>
+    <mat-tab label="SMTP設定">
+        <app-server-conf></app-server-conf>
+    </mat-tab>
+</mat-tab-group>
