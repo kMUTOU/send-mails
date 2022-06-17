@@ -33,7 +33,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "electron": "^9.4.0",
+    "electron": "^15.5.5",
     "electron-packager": "^14.2.1",
     "debug": "~2.6.9",
     "@angular/animations": "^9.1.2",
