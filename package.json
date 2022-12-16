@@ -25,7 +25,7 @@
   "private": true,
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "http-errors": "~1.6.3",
     "nodemailer": "^6.4.6",
     "rxjs": "~6.5.4",
